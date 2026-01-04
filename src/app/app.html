@@ -1,3 +1,6 @@
-<app-addTask></app-addTask>
+<app-addTask *ngIf="isDestroyed"></app-addTask>
 <app-list-task></app-list-task>
+<div>
+    {{CountDown}}
+</div>
 <router-outlet></router-outlet>

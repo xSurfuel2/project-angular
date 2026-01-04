@@ -1,11 +1,31 @@
-import { Component, signal } from '@angular/core';
+import { Component, ChangeDetectorRef, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
   standalone: false,
-  styleUrl: './app.scss'
+  styleUrls: ['./app.scss']
 })
-export class App {
-  protected readonly title = signal('project-angular');
+export class App implements OnDestroy {
+
+  isDestroyed = true;
+  CountDown = 10;
+  IntervalId: any;
+
+  constructor(private cdr: ChangeDetectorRef) {
+    this.IntervalId = setInterval(() => {
+      this.CountDown--;
+
+      if (this.CountDown <= 0) {
+        clearInterval(this.IntervalId);
+        this.isDestroyed = false;
+      }
+
+      this.cdr.detectChanges(); // <- clave con CSP
+    }, 1000);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.IntervalId);
+  }
 }
