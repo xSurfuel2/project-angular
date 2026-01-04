@@ -3,14 +3,18 @@ import { BrowserModule, provideClientHydration, withEventReplay } from '@angular
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
+import { AddComponent } from './components/addTask/add.component';
+import { ListTask } from './components/list-task/list-task';
 
 @NgModule({
   declarations: [
-    App
+    App,
+    ListTask
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AddComponent
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
