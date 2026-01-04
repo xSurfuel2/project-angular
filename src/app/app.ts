@@ -34,7 +34,6 @@ export class App implements DoCheck, OnDestroy {
 
   ngDoCheck(): void {
     if (this.value !== this.previousValue) {
-      // Esto ya lo marcas arriba, pero lo dejo por tu ejercicio
       this.previousValue = this.value;
     }
   }

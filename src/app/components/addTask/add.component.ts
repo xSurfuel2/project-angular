@@ -1,26 +1,28 @@
-import { AfterContentInit, Component, OnDestroy, OnInit } from "@angular/core";
-import { AppRoutingModule } from "../../app-routing-module";
+import { Component } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-addTask",
   templateUrl: "./add.component.html",
   styleUrls: ["./add.component.scss"],
-  imports: [AppRoutingModule]
+  standalone: true,
+  imports: [FormsModule]
 })
-export class AddComponent implements OnDestroy, AfterContentInit{
+export class AddComponent {
 
-  /*ngOnInit(): void {
-    console.log("Creandose desde el ngOnInit");
-  }
-  constructor() {
-    console.log("Creandose desde el constructor");
-  }*/
+  numberTasks: number = 10;
+  titleTasks: string = "";
+  activeButton: boolean = true; // true = deshabilitado
 
-  ngOnDestroy(): void {
-    console.log("El componente ha sido destruido");
-  }
+  sendTask(): void {
+    const sizeTitleTask = this.titleTasks.trim().length;
 
-  ngAfterContentInit(): void {
-    console.log("El contenido proyectado ha sido inicializado");
+    if (sizeTitleTask > 3) {
+      this.activeButton = false; // habilita el botón
+    } else {
+      this.activeButton = true;  // deshabilita el botón
+    }
+
+    console.log(`Tarea enviada con éxito ${this.titleTasks}`);
   }
 }
