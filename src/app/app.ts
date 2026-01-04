@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectorRef, DoCheck, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -6,26 +6,40 @@ import { Component, ChangeDetectorRef, OnDestroy } from '@angular/core';
   standalone: false,
   styleUrls: ['./app.scss']
 })
-export class App implements OnDestroy {
+export class App implements DoCheck, OnDestroy {
 
-  isDestroyed = true;
-  CountDown = 10;
-  IntervalId: any;
+  value = 0;
+  previousValue = 0;
+  changesDetected = false;
 
-  constructor(private cdr: ChangeDetectorRef) {
-    this.IntervalId = setInterval(() => {
-      this.CountDown--;
+  private timeoutId: any;
 
-      if (this.CountDown <= 0) {
-        clearInterval(this.IntervalId);
-        this.isDestroyed = false;
-      }
+  constructor(private cdr: ChangeDetectorRef) {}
 
-      this.cdr.detectChanges(); // <- clave con CSP
-    }, 1000);
+  updateValue(): void {
+    this.value++;
+
+    // Marca el cambio (para que se vea el <p>)
+    this.changesDetected = true;
+
+    // Reinicia el “apagado” de 2s
+    clearTimeout(this.timeoutId);
+    this.timeoutId = setTimeout(() => {
+      this.changesDetected = false;
+      this.cdr.detectChanges();
+    }, 2000);
+
+    this.cdr.detectChanges();
+  }
+
+  ngDoCheck(): void {
+    if (this.value !== this.previousValue) {
+      // Esto ya lo marcas arriba, pero lo dejo por tu ejercicio
+      this.previousValue = this.value;
+    }
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.IntervalId);
+    clearTimeout(this.timeoutId);
   }
 }

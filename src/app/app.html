@@ -1,6 +1,11 @@
-<app-addTask *ngIf="isDestroyed"></app-addTask>
+<app-addTask>
+    <p>Este es el contenido que quiero mostrar dentro de add component</p>
+    <button>Presionar</button>
+</app-addTask>
 <app-list-task></app-list-task>
-<div>
-    {{CountDown}}
+<div>Valor actual
+    {{value}}
 </div>
+<p *ngIf="changesDetected">Cambios detectados</p>
+<button (click)="updateValue()" >Actualizar valor</button>
 <router-outlet></router-outlet>
